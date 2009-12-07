@@ -50,7 +50,8 @@ class Track:
                  scale_fontangle=45, scale_largeticks=0.5, scale_ticks=1,
                  scale_smallticks=0.3, scale_largetick_interval=1e6,
                  scale_smalltick_interval=1e4, scale_largetick_labels=1,
-                 scale_smalltick_labels=0) Called on instantiation
+                 scale_smalltick_labels=0,
+                 x_axis='middle') Called on instantiation
 
         o add_set(self, set)    Add a FeatureSet or GraphSet to the diagram
 
@@ -136,6 +137,10 @@ class Track:
 
         o axis_labels       Boolean describing whether the value labels should
                             be placed on the Y axes
+
+        o x_axis        String ('top','middle','bottom') describing where the 
+                        x_axis is positioned.
+
     """
     def __init__(self, name=None, height=1, hide=0, greytrack=0,
                  greytrack_labels=5, greytrack_fontsize=8,
@@ -147,7 +152,8 @@ class Track:
                  scale_smallticks=0.3, scale_largetick_interval=1e6,
                  scale_smalltick_interval=1e4, scale_largetick_labels=1,
                  scale_smalltick_labels=0, axis_labels=1,
-                 greytrack_font_colour = None, scale_colour=None):
+                 greytrack_font_colour = None, scale_colour=None,
+                 x_axis='middle'):
         """ __init__(self, name=None, height=1)
 
             o height    Int describing the relative height to other tracks in the
@@ -217,6 +223,9 @@ class Track:
 
             o axis_labels       Boolean describing whether the value labels should
                                 be placed on the Y axes
+
+            o x_axis        String ('top','middle','bottom') describing where the 
+                            x_axis is positioned.
         """
         #Let the UK spelling (colour) override the USA spelling (color)
         if greytrack_font_colour is not None:
@@ -258,6 +267,7 @@ class Track:
         self.scale_largetick_labels = scale_largetick_labels
         self.scale_smalltick_labels = scale_smalltick_labels
         self.axis_labels = axis_labels
+        self.x_axis = x_axis
         
 
     def add_set(self, set):

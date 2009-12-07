@@ -407,6 +407,9 @@ class LinearDrawer(AbstractDrawer):
                        }
         
         for set in track.get_sets():        # Draw the feature or graph sets
+            if set.__class__ is GraphSet:     # ...for a graph set
+                for graph in set.get_graphs():
+                    graph.x_axis=track.x_axis
             elements, labels = set_methods[set.__class__](set)
             track_elements += elements
             track_labels += labels
@@ -477,6 +480,11 @@ class LinearDrawer(AbstractDrawer):
         # Get track location
         btm, ctr, top = self.track_offsets[self.current_track_level]
         trackheight = (top-ctr)
+        ctr_backup=ctr ### 
+        if track.x_axis=='bottom':
+            ctr=btm
+        elif track.x_axis=='top':
+            ctr=top
 
         # For each fragment, draw the scale for this track
         for fragment in range(self.fragments):
@@ -536,11 +544,12 @@ class LinearDrawer(AbstractDrawer):
 
         # Check to see if the track contains a graph - if it does, get the
         # minimum and maximum values, and put them on the scale Y-axis
+        ctr=ctr_backup
         if track.axis_labels:
             for set in track.get_sets():            # Check all sets...
                 if set.__class__ is GraphSet:     # ...for a graph set
                     graph_label_min = []
-                    graph_label_mid = []                    
+                    graph_label_mid = []
                     graph_label_max = []
                     for graph in set.get_graphs():
                         quartiles = graph.quartiles()
@@ -548,6 +557,7 @@ class LinearDrawer(AbstractDrawer):
                         if graph.center is None:
                             midval = (maxval + minval)/2.
                             graph_label_min.append("%.3f" % minval)
+                            graph_label_mid.append("%.3f" % midval)
                             graph_label_max.append("%.3f" % maxval)
                         else:
                             diff = max((graph.center-minval),
@@ -787,7 +797,7 @@ class LinearDrawer(AbstractDrawer):
         elif strand == -1:
             sigil = method((x1, btm), (x0, ctr), color=feature.color,
                            orientation='left', **kwargs)
-        else:
+        else :
             sigil = method((x0, btm), (x1, top), color=feature.color,
                            **kwargs)
         if feature.label:   # Feature requires a label
@@ -868,9 +878,13 @@ class LinearDrawer(AbstractDrawer):
         # midval is the value at which the x-axis is plotted, and is the
         # central ring in the track
         if graph.center is None:
-            midval = (maxval + minval)/2.    
+            midval = (maxval + minval)/2.
         else:
             midval = graph.center
+        if graph.x_axis=='bottom' or graph.x_axis=='top':
+            ctr=btm
+            midval=minval
+            trackheight=trackheight*2
         # Whichever is the greatest difference: max-midval or min-midval, is
         # taken to specify the number of pixel units resolved along the
         # y-axis
@@ -1015,6 +1029,11 @@ class LinearDrawer(AbstractDrawer):
             midval = (maxval + minval)/2.    
         else:
             midval = graph.center
+        # settings for drawing the x_axis at bottom
+        if graph.x_axis=='bottom' or graph.x_axis=='top':
+            ctr=btm
+            midval=minval
+            trackheight=trackheight*2
 
         # Convert data into 'binned' blocks, covering half the distance to the
         # next data point on either side, accounting for the ends of fragments

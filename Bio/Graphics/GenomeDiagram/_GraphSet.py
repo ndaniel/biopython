@@ -83,7 +83,7 @@ class GraphSet:
 
     def new_graph(self, data, name=None, style='bar', color=colors.lightgreen,
                   altcolor=colors.darkseagreen, linewidth=1, center=None,
-                  colour=None, altcolour=None, centre=None):
+                  colour=None, altcolour=None, centre=None, x_axis='middle'):
         """ new_graph(self, data, name=None, style='bar', color=colors.lightgreen,
                   altcolor=colors.darkseagreen)
 
@@ -104,9 +104,13 @@ class GraphSet:
             
             o linewidth     Float describing linewidth for graph
 
-            o center        Float setting the value at which the x-axis
+            o center        Float setting the value at which the x_axis
                             crosses the y-axis (overridden by backwards
                             compatible argument with UK spelling, centre)
+
+            o x_axis        String ('top','middle','bottom') describing where the 
+                            x_axis is positioned.
+
 
             Add a GraphData object to the diagram (will be stored
             internally
@@ -116,11 +120,11 @@ class GraphSet:
             color = colour
         if altcolour is not None:
             altcolor = altcolour
-        if centre is not None:
+        if centre is not None :
             center = centre
 
         id = self._next_id                              # get id number
-        graph = GraphData(id, data, name, style, color, altcolor, center)
+        graph = GraphData(id, data, name, style, color, altcolor, center, x_axis=x_axis)
         graph.linewidth = linewidth
         self._graphs[id] =  graph                       # add graph data
         self._next_id += 1                              # increment next id

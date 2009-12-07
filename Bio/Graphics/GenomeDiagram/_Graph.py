@@ -87,7 +87,8 @@ class GraphData:
     """
     def __init__(self, id=None, data=None, name=None, style='bar',
                  color=colors.lightgreen, altcolor=colors.darkseagreen,
-                 center=None, colour=None, altcolour=None, centre=None):
+                 center=None, colour=None, altcolour=None, centre=None, 
+                 x_axis='middle'):
         """__init__(self, id=None, data=None, name=None, style='bar',
                  color=colors.lightgreen, altcolor=colors.darkseagreen)
 
@@ -108,8 +109,11 @@ class GraphData:
                        values (some styles only) (overridden by backwards
                        compatible argument with UK spelling, colour).
 
-            o center Value at which x-axis crosses y-axis (overridden by
+            o center Value at which x_axis crosses y-axis (overridden by
                      backwards comparible argument with UK spelling, centre).
+
+            o x_axis        String ('top','middle','bottom') describing where the 
+                            x_axis is positioned.
 
         """
 
@@ -118,7 +122,7 @@ class GraphData:
             color = colour
         if altcolour is not None:
             altcolor = altcolour
-        if centre is not None:
+        if centre is not None :
             center = centre
 
         self.id = id            # Unique identifier for the graph
@@ -132,9 +136,10 @@ class GraphData:
         self.poscolor = color     # Color to draw all, or 'high' values
         self.negcolor = altcolor  # Color to draw 'low' values
         self.linewidth = 2          # linewidth to use in line graphs
-        self.center = center        # value at which x-axis crosses y-axis
+        self.center = center        # value at which x_axis crosses y-axis
+        self.x_axis = x_axis        # where the x_axis is drawn
 
-    def _set_centre(self, value):
+    def _set_centre(self, value) :
         self.center = value
     centre = property(fget = lambda self : self.center,
                        fset = _set_centre,
