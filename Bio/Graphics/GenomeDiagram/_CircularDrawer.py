@@ -763,18 +763,18 @@ class CircularDrawer(AbstractDrawer):
                             minval, maxval = quartiles[0], quartiles[4]
                             if graph.center is None:
                                 midval = (maxval + minval)/2.
-                                graph_label_min.append("%.3f" % minval)
-                                graph_label_max.append("%.3f" % maxval)
-                                graph_label_mid.append("%.3f" % midval)
+                                graph_label_min.append("%.5f" % minval)
+                                graph_label_max.append("%.5f" % maxval)
+                                graph_label_mid.append("%.5f" % midval)
                             else:
                                 diff = max((graph.center-minval),
                                            (maxval-graph.center))
                                 minval = graph.center-diff
                                 maxval = graph.center+diff
                                 midval = graph.center
-                                graph_label_mid.append("%.3f" % midval)
-                                graph_label_min.append("%.3f" % minval)
-                                graph_label_max.append("%.3f" % maxval)
+                                graph_label_mid.append("%.5f" % midval)
+                                graph_label_min.append("%.5f" % minval)
+                                graph_label_max.append("%.5f" % maxval)
                         xmid, ymid = (x0+x1)/2., (y0+y1)/2.
                         for limit, x, y, in [(graph_label_min, x0, y0),
                                              (graph_label_max, x1, y1),
