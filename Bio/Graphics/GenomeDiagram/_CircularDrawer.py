@@ -774,7 +774,7 @@ class CircularDrawer(AbstractDrawer):
                         for graph in set.get_graphs():                        
                             quartiles = graph.quartiles()
                             minval, maxval = quartiles[0], quartiles[4]
-                            if minval<0 and maxval>0:
+                            if  minval<0 and maxval>0 and (track.x_axis=='top' or track.x_axis=='bottom'):
                                 graph.center=0.0
                             if graph.center is None:
                                 midval = (maxval + minval)/2.
