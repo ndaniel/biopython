@@ -519,11 +519,17 @@ class CircularDrawer(AbstractDrawer):
             midval = (maxval + minval)/2.    
         else:
             midval = graph.center
-        if graph.x_axis=='bottom' or  graph.x_axis=='top':
-            ctr=btm
-            midval=minval
-            trackheight=trackheight*2
-
+        if graph.x_axis=='bottom' or graph.x_axis=='top':
+            if minval>=0:
+                ctr=btm
+                midval=minval
+                trackheight=trackheight*2
+            elif maxval<=0:
+                ctr=top
+                midval=maxval
+                trackheight=trackheight*2
+            else:
+                midval=0.0
         # Whichever is the greatest difference: max-midval or min-midval, is
         # taken to specify the number of pixel units resolved along the
         # y-axis
@@ -580,9 +586,16 @@ class CircularDrawer(AbstractDrawer):
             midval = graph.center
         # settings for drawing the x_axis at bottom
         if graph.x_axis=='bottom' or graph.x_axis=='top':
-            ctr=btm
-            midval=minval
-            trackheight=trackheight*2
+            if minval>=0:
+                ctr=btm
+                midval=minval
+                trackheight=trackheight*2
+            elif maxval<=0:
+                ctr=top
+                midval=maxval
+                trackheight=trackheight*2
+            else:
+                midval=0.0
 
         # Convert data into 'binned' blocks, covering half the distance to the
         # next data point on either side, accounting for the ends of fragments
@@ -761,6 +774,8 @@ class CircularDrawer(AbstractDrawer):
                         for graph in set.get_graphs():                        
                             quartiles = graph.quartiles()
                             minval, maxval = quartiles[0], quartiles[4]
+                            if minval<0 and maxval>0:
+                                graph.center=0.0
                             if graph.center is None:
                                 midval = (maxval + minval)/2.
                                 graph_label_min.append("%.5f" % minval)

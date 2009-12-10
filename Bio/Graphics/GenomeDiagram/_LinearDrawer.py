@@ -893,9 +893,7 @@ class LinearDrawer(AbstractDrawer):
                 midval=maxval
                 trackheight=trackheight*2
             else:
-                #ctr=btm+(top-btm)*(maxval/(maxval-minval))
-                midval=0
-                graph.center=0
+                midval=0.0
             
         # Whichever is the greatest difference: max-midval or min-midval, is
         # taken to specify the number of pixel units resolved along the
@@ -1052,7 +1050,6 @@ class LinearDrawer(AbstractDrawer):
                 midval=maxval
                 trackheight=trackheight*2
             else:
-                #ctr=btm+(top-btm)*(maxval/(maxval-minval))
                 midval=0.0
 
         # Convert data into 'binned' blocks, covering half the distance to the
